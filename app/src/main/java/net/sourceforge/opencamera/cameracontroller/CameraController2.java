@@ -382,7 +382,7 @@ public class CameraController2 extends CameraController {
         private boolean has_ae_exposure_compensation;
         private int ae_exposure_compensation;
         private boolean has_af_mode;
-        private int af_mode = CaptureRequest.CONTROL_AF_MODE_OFF; // Testing Marcus  (_AUTO)
+        private int af_mode = CaptureRequest.CONTROL_AF_MODE_AUTO;
         private float focus_distance; // actual value passed to camera device (set to 0.0 if in infinity mode)
         private float focus_distance_manual; // saved setting when in manual mode (so if user switches to infinity mode and back, we'll still remember the manual focus distance)
         private boolean ae_lock;
@@ -772,8 +772,7 @@ public class CameraController2 extends CameraController {
                 //builder.set(CaptureRequest.SENSOR_FRAME_DURATION, 0L);
                 // only need to account for FLASH_MODE_TORCH, otherwise we use fake flash mode for manual ISO
                 if( flash_value.equals("flash_torch") ) {
-                    // builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus (_TORCH)
-                    builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                    builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                 }
                 else {
                     builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
@@ -793,8 +792,7 @@ public class CameraController2 extends CameraController {
                 //noinspection DuplicateBranchesInSwitch
                 switch(flash_value) {
                     case "flash_off":
-                        // builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                         builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
                         break;
                     case "flash_auto":
@@ -803,8 +801,7 @@ public class CameraController2 extends CameraController {
                     /*if( use_fake_precapture || CameraController2.this.want_expo_bracketing )
                         builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                     else*/
-                        // builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_AUTO_FLASH); // Testing Marcus
-                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_AUTO_FLASH);
                         builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
                         break;
                     case "flash_on":
@@ -813,31 +810,25 @@ public class CameraController2 extends CameraController {
                     /*if( use_fake_precapture || CameraController2.this.want_expo_bracketing )
                         builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                     else*/
-                        // builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_ALWAYS_FLASH); // Testing Marcus
-                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
                         builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
                         break;
                     case "flash_torch":
-                        // builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
-                        // builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                        builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+                        builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                         break;
                     case "flash_red_eye":
                         // not supported for expo bracketing or burst
                         if( CameraController2.this.burst_type != BurstType.BURSTTYPE_NONE )
-                            // builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                            builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                            builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                         else
-                            //builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE); // Testing Marcus
-                            builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                            builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE);
                         builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
                         break;
                     case "flash_frontscreen_auto":
                     case "flash_frontscreen_on":
                     case "flash_frontscreen_torch":
-                        // builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                        builder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                         builder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
                         break;
                 }
@@ -4958,7 +4949,7 @@ public class CameraController2 extends CameraController {
         switch(focus_value) {
             case "focus_mode_auto":
             case "focus_mode_locked":
-                focus_mode = CaptureRequest.CONTROL_AF_MODE_OFF; // Testing Marcus (_AUTO)
+                focus_mode = CaptureRequest.CONTROL_AF_MODE_AUTO;
                 break;
             case "focus_mode_infinity":
                 focus_mode = CaptureRequest.CONTROL_AF_MODE_OFF;
@@ -5034,7 +5025,7 @@ public class CameraController2 extends CameraController {
     public String getFocusValue() {
         Integer focus_mode = previewBuilder.get(CaptureRequest.CONTROL_AF_MODE);
         if( focus_mode == null )
-            focus_mode = CaptureRequest.CONTROL_AF_MODE_OFF; // Testing Marcus (_AUTO)
+            focus_mode = CaptureRequest.CONTROL_AF_MODE_AUTO;
         return convertFocusModeToValue(focus_mode);
     }
 
@@ -6328,11 +6319,9 @@ public class CameraController2 extends CameraController {
                         if( !camera_settings.has_iso ) {
                             // in auto-mode, need to ensure CONTROL_AE_MODE isn't est to flash auto/on for torch to work
                             // in manual-mode, fine as CONTROL_AE_MODE will be off
-                            // afBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                            afBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                            afBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                         }
-                        // afBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                        afBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                        afBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                         test_fake_flash_focus++;
                         fake_precapture_torch_focus_performed = true;
                         setRepeatingRequest(afBuilder.build());
@@ -6518,10 +6507,8 @@ public class CameraController2 extends CameraController {
                     if( MyDebug.LOG )
                         Log.d(TAG, "setting torch for capture");
                     if( !camera_settings.has_iso )
-                        // stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                        stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
-                    // stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                        stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                     test_fake_flash_photo++;
                 }
                 // Versions previous to 1.51 would switch to manual mode and underexpose in bright scenes; however on more modern devices such as Samsung and
@@ -6795,8 +6782,7 @@ public class CameraController2 extends CameraController {
                 if( use_fake_precapture_mode && fake_precapture_torch_performed ) {
                     if( MyDebug.LOG )
                         Log.d(TAG, "setting torch for capture");
-                    // stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                     test_fake_flash_photo++;
                 }
                 // else don't turn torch off, as user may be in torch on mode
@@ -6930,10 +6916,8 @@ public class CameraController2 extends CameraController {
                         if( MyDebug.LOG )
                             Log.d(TAG, "setting torch for capture");
                         if( !camera_settings.has_iso )
-                            // stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                            stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
-                        // stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                        stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                            stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+                        stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                         test_fake_flash_photo++;
                     }
 
@@ -7135,10 +7119,8 @@ public class CameraController2 extends CameraController {
                     if( MyDebug.LOG )
                         Log.d(TAG, "setting torch for capture");
                     if( !camera_settings.has_iso )
-                        // stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                        stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                    // stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                        stillBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                     test_fake_flash_photo++;
                 }
 
@@ -7159,8 +7141,7 @@ public class CameraController2 extends CameraController {
                 // RAW target added below
 
                 if( use_fake_precapture_mode && fake_precapture_torch_performed ) {
-                    // stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                    stillBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
                     test_fake_flash_photo++;
                 }
                 // else don't turn torch off, as user may be in torch on mode
@@ -7506,11 +7487,10 @@ public class CameraController2 extends CameraController {
                     if( !camera_settings.has_iso ) {
                         // in auto-mode, need to ensure CONTROL_AE_MODE isn't est to flash auto/on for torch to work
                         // in manual-mode, fine as CONTROL_AE_MODE will be off
-                        // previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON); // Testing Marcus
-                        previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_OFF); // Testing Marcus
+                        previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                     }
-                    // previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
-                    previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE); // Testing Marcus
+                    //previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH); // Testing Marcus
+                    previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF); // Testing Marcus
                     test_fake_flash_precapture++;
                     fake_precapture_torch_performed = true;
                     break;
@@ -7724,8 +7704,7 @@ public class CameraController2 extends CameraController {
                         call_takePictureAfterPrecapture = true;
                     }
                     else {
-                        // call_runPrecapture = true; // Testing Marcus
-                        call_runPrecapture = false; // Testing Marcus
+                        call_runPrecapture = true;
                     }
                 }
             }
